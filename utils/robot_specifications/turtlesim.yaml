@@ -11,4 +11,56 @@ name: turtlesim
 alias: turtle # Optional alias for easier reference
 type: real # or 'sim' for simulation
 prompts: |
-              The turtle robot is running inside a Docker container with a rosbridge accessible on localhost:9090
+  Turtlesim context:
+  - The simulator runs in Docker with rosbridge on ws://localhost:9090.
+  - Use publish_for_durations to send velocity commands. Always end with a zero Twist to stop.
+
+  Control topic:
+  - /turtle1/cmd_vel (geometry_msgs/msg/Twist)
+    - linear.x: forward/backward (+forward, −backward). Keep linear.y/z = 0.
+    - angular.z: yaw left/right (+left, −right). Keep angular.x/y = 0.
+    - Examples:
+      1) Move forward for 2 s, then stop:
+         publish_for_durations(
+           topic='/turtle1/cmd_vel',
+           msg_type='geometry_msgs/msg/Twist',
+           messages=[
+             { linear: { x: 2.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } },
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } }
+           ],
+           durations=[2.0, 0.2]
+         )
+      2) Rotate left ~90° (1.57 rad) in 1.0 s, then stop:
+         publish_for_durations(
+           topic='/turtle1/cmd_vel',
+           msg_type='geometry_msgs/msg/Twist',
+           messages=[
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 1.57 } },
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } }
+           ],
+           durations=[1.0, 0.2]
+         )
+      3) One side of a square (repeat 4×):
+         publish_for_durations(
+           topic='/turtle1/cmd_vel',
+           msg_type='geometry_msgs/msg/Twist',
+           messages=[
+             { linear: { x: 2.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } }, # forward
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } }, # stop
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 1.57 } }, # turn
+             { linear: { x: 0.0, y: 0.0, z: 0.0 }, angular: { x: 0.0, y: 0.0, z: 0.0 } }  # stop
+           ],
+           durations=[2.0, 0.2, 1.0, 0.2]
+         )
+
+  Pose topic:
+  - /turtle1/pose (turtlesim/msg/Pose)
+    - Fields: x (m), y (m), theta (rad), linear_velocity, angular_velocity.
+    - This topic is published by turtlesim (read-only). Do not publish to it; subscribe to read pose.
+    - Example subscription (if available):
+      subscribe_for_durations(
+        topic='/turtle1/pose',
+        msg_type='turtlesim/msg/Pose',
+        duration=2.0
+      )
+              
