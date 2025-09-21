@@ -14,6 +14,7 @@ prompts: |
   Turtlesim context:
   - The simulator runs in Docker with rosbridge on ws://localhost:9090.
   - Use publish_for_durations to send velocity commands. Always end with a zero Twist to stop.
+  - The relevant topics for controling turtle are given here so you don't need to use functions to check the topics.
 
   Control topic:
   - /turtle1/cmd_vel (geometry_msgs/msg/Twist)
