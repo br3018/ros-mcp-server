@@ -156,7 +156,19 @@ claude-desktop
 
 
 ## 2.1. Download Claude Desktop 
-This will have Claude running on Windows and the MCP server running on WSL. We assume that you had cloned the repository and installed UV on your [WSL](https://apps.microsoft.com/detail/9pn20msr04dw?hl=en-US&gl=US) 
+This will have Claude running on Windows and the MCP server running on WSL. We assume that you had cloned the repository and installed UV on your [WSL](https://apps.microsoft.com/detail/9pn20msr04dw?hl=en-US&gl=US)
+
+- Install WSL with Ubuntu-22.04
+```bash
+wsl --install Ubuntu-22.04
+wsl --set-default-version 2
+wsl --set-default Ubuntu-22.04
+```
+
+- Install uv 
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 - Download from [claude.ai](https://claude.ai/download)
 
