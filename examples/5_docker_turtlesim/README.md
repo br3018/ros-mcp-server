@@ -94,6 +94,12 @@ Since it is running on the same machine, you can tell the LLM to connect to the 
 
 ## Troubleshooting
 
+### Port Forwarding (Windows)
+
+Running inside docker container exposes rosbridge on localhost:9090 by default. As the MCP server runs using WSL it is not able to natively connect to localhost except by port forwarding to the WSL hostname. Windows Defender Firewall will block this connection unless a rule is set up to enable it.
+
+This is fixable on Windows 11 by setting networking mode to mirrored in WSL Settings.
+
 ### Display Issues (Linux)
 
 If you encounter display issues on Linux, run:
